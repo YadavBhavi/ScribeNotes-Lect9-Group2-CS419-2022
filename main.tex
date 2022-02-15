@@ -1,0 +1,189 @@
+%
+% This is the LaTeX template file for lecture notes for CS294-8,
+% Computational Biology for Computer Scientists.  When preparing 
+% LaTeX notes for this class, please use this template.
+%
+% To familiarize yourself with this template, the body contains
+% some examples of its use.  Look them over.  Then you can
+% run LaTeX on this file.  After you have LaTeXed this file then
+% you can look over the result either by printing it out with
+% dvips or using xdvi.
+%
+% This template is based on the template for Prof. Sinclair's CS 270.
+
+\documentclass[11pt, twosides]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{graphics}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{xcolor}
+\setlength{\oddsidemargin}{0.25 in}
+\setlength{\evensidemargin}{-0.25 in}
+\setlength{\topmargin}{-0.6 in}
+\setlength{\textwidth}{6.5 in}
+\setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.75 in}
+\setlength{\parindent}{0 in}
+\setlength{\parskip}{0.1 in}
+
+
+%
+% The following commands set up the lecnum (lecture number)
+% counter and make various numbering schemes work relative
+% to the lecture number.
+%
+\newcounter{lecnum}
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}
+\renewcommand{\thesection}{\thelecnum.\arabic{section}}
+\renewcommand{\theequation}{\thelecnum.\arabic{equation}}
+\renewcommand{\thefigure}{\thelecnum.\arabic{figure}}
+\renewcommand{\thetable}{\thelecnum.\arabic{table}}
+
+%
+% The following macro is used to generate the header.
+%
+\newcommand{\lecture}[4]{
+%   \pagestyle{myheadings}
+   \thispagestyle{plain}
+   \newpage
+   \setcounter{lecnum}{#1}
+   \setcounter{page}{1}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{\vspace{2mm}
+    \hbox to 6.28in { {\bf CS 419M Introduction to Machine Learning
+                        \hfill Spring 2021-22} }
+       \vspace{4mm}
+       \hbox to 6.28in { {\Large \hfill Lecture #1: #2  \hfill} }
+       \vspace{2mm}
+       \hbox to 6.28in { {\it Lecturer: #3 \hfill Scribe: #4} }
+      \vspace{2mm}}
+   }
+   \end{center}
+   \markboth{Lecture #1: #2}{Lecture #1: #2}
+}
+
+%
+% Convention for citations is authors' initials followed by the year.
+% For example, to cite a paper by Leighton and Maggs you would type
+% \cite{LM89}, and to cite a paper by Strassen you would type \cite{S69}.
+% (To avoid bibliography problems, for now we redefine the \cite command.)
+% Also commands that create a suitable format for the reference list.
+% \renewcommand{\cite}[1]{[#1]}
+% \def\beginrefs{\begin{list}%
+%         {[\arabic{equation}]}{\usecounter{equation}
+%          \setlength{\leftmargin}{2.0truecm}\setlength{\labelsep}{0.4truecm}%
+%          \setlength{\labelwidth}{1.6truecm}}}
+% \def\endrefs{\end{list}}
+% \def\bibentry#1{\item[\hbox{[#1]}]}
+
+%Use this command for a figure; it puts a figure in wherever you want it.
+%usage: \fig{NUMBER}{SPACE-IN-INCHES}{CAPTION}
+% \newcommand{\fig}[3]{
+% 			\vspace{#2}
+% 			\begin{center}
+% 			Figure \thelecnum.#1:~#3
+% 			\end{center}
+% 	}
+% Use these for theorems, lemmas, proofs, etc.
+\newtheorem{theorem}{Theorem}[lecnum]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+% \newenvironment{proof}{{\bf Proof:}}{\hfill\rule{2mm}{2mm}}
+
+% **** IF YOU WANT TO DEFINE ADDITIONAL MACROS FOR YOURSELF, PUT THEM HERE:
+
+\begin{document}
+%FILL IN THE RIGHT INFO.
+%\lecture{**LECTURE-NUMBER**}{**DATE**}{**LECTURER**}{**SCRIBE**}
+\lecture{9}{Stability of Learning Algorithms}{Abir De}{Group 2}
+%\lecture{x}{Title}{Abir De}{Group y}
+\section{Characterization of Stability of an Algorithm}
+
+    Let $A$ be a Learning Algorithm and $S$ be the Data set which is fed into the Learning algorithm.The outcome/output of the learning algorithm is $A(S)$.(We can think of $A(S)$ as a vector to define a norm)
+\begin{definition}(Stability)
+A learning algorithm A is said to be stable iff
+$$ \|A(S)-A(S')\| \leq \mathcal{O}\bigg(\frac{1}{\lvert S\rvert}\bigg)$$
+For every $S$ and $S'$ such that $\lvert S\backslash S'\rvert=\lvert S'\backslash S\rvert=1$.
+\end{definition}
+
+The condition on $S$ and $S'$ means that there is only a one element mismatch between the sets.
+
+Consider instead, what happens if we just delete one element $e$ from the set and take the norm of the difference:(Stability towards single element deletions)
+$$ \|A(S)-A(S\backslash e)\|$$
+
+We want to find the relation of the above with the previously defined notion of stability. This is dealt with in the following theorem.
+%As it turns out that if:
+
+%$$ \|A(S)-A(S\backslash e)\| = \mathcal{O}\bigg(\frac{1}{\|s\|}\bigg) $$
+%then it implies stability of the algorithm according to the previous definition.
+\begin{proposition}Let $A$ be a Learning Algorithm, $S=\{(x_{i},y_{i})\}$ be a data set and $e$ be a single data point, $e=(x_{r},y_{r})$ for some $r$ such that $e \in S$.The following is a sufficient condition for the Algorithm to be stable:
+$$ \|A(S)-A(S\backslash e)\| = \mathcal{O}\bigg(\frac{1}{\lvert S\rvert}\bigg) \hspace{+10pt} \forall e,S $$
+\end{proposition}
+
+\begin{proof}
+Consider set $S$ and $S'$ such that $\lvert S\backslash S'\rvert=\lvert S'\backslash S\rvert=1$. This means that there exists $e$ and $e'$ such that $S\backslash e=S'\backslash e'$. We shall also be using Triangle inequality. Let us start with the expression in the definition of stability:
+$$ \|A(S)-A(S')\| = \|A(S)-A(S\backslash e) + A(S'\backslash e')-A(S')\|$$
+(We can do this since $S\backslash e=S'\backslash e'$).Now applying Triangle inequality to the right hand side:
+$$\|A(S)-A(S')\| \leq \|A(S)-A(S\backslash e)\| + \|A(S'\backslash e')-A(S')\|$$
+But we already have :
+$$\|A(S)-A(S\backslash e)\| = \mathcal{O}\bigg(\frac{1}{\lvert S\rvert}\bigg)$$
+$$\|A(S'\backslash e')-A(S')\| = \mathcal{O}\bigg(\frac{1}{\lvert S'\rvert }\bigg)$$
+ Using this, we have:
+ $$\|A(S)-A(S')\| \leq \mathcal{O}\bigg(\frac{1}{\lvert S\rvert}\bigg) + \mathcal{O}\bigg(\frac{1}{\lvert S'\rvert }\bigg)$$
+ 
+ Since $\lvert S\rvert = \lvert S'\rvert$ :
+ $$\|A(S)-A(S')\| \leq \mathcal{O}\bigg(\frac{1}{\lvert S\rvert}\bigg)$$
+\end{proof} 
+
+\textbf{Note:} If we add noise to \textbf{$x_{i}$} then accuracy will decrease, but our model will become more stable.
+
+\begin{proposition}Let $F_{w}(s) = \sum_{i\in S}[l(W^{T}x_{i},y_{i})+\lambda||W||^{2}]$ be the loss function of a Learning Algorithm, $S=\{(x_{i},y_{i})\}$ be a data set where l is convex (i.e., all eigenvalues of $\frac{\partial^2 l(W)}{\partial W^2}$ are positive) and Lipschitz continuous (i.e., $||l(s)-l(s')|| \leq ||s-s'||$). Then the Algorithm will be stable i.e., $$ \|W^{*}(S)-W^{*}(S')\| = \mathcal{O}\bigg(\frac{1}{\lvert S\rvert}\bigg) \hspace{+10pt} $$ where $$W^{*} = \arg \min_{W} F_{W}(S)$$
+\end{proposition}
+    
+\begin{proof}
+If we are somehow able to prove below inequality
+$$K\|W{*}(S)-W{*}(S')\|^2 \leq F_{w*(s)}(S)-F_{w*(s')}(S') \leq K'\|W{*}(S)-W{*}(S')\|$$ Then 
+$$K\|W{*}(S)-W{*}(S')\|^2 \leq K'\|W{*}(S)-W{*}(S')\|$$
+
+$$\|W{*}(S)-W{*}(S')\| \leq K'/K$$ and now if we prove $$K'/K = \mathcal{O}\bigg(\frac{1}{\lvert S\rvert}\bigg) \hspace{+10pt} $$ then as our requirement we are at the end of proof i.e.
+$$ \|W^{*}(S)-W^{*}(S')\| = \mathcal{O}\bigg(\frac{1}{\lvert S\rvert}\bigg) \hspace{+10pt} $$ To begin with that take a function g and assume g is convex. 
+\newline So, from Taylor Series
+$$g(W)=g(W{min}) + (dg/dW_{min})^T(W-W_{min}) + (W-W_{min})^T \mathcal{H}  (W-W_{min})$$ As $$(dg/dW_{min})=0$$ and $$\mathcal{H} \leq Eigen_{min} $$ we have
+$$g(W)-g(W{min}) \leq Eigen_{min}(W-W_{min})$$ 
+Now take g is Lipschitz Continuous, $$||g(W)-g(W_{min})|| \leq L||W-W_{min}||$$
+Here, $$F_{w}(s) = \sum_{i\in S}[l(W^{T}x_{i},y_{i})+\lambda||W||^{2}]$$
+So, $$\mathcal{H} \geq 2 \lambda S $$ 
+and K is related to $Eigen_{min} \geq \mathcal{H}$ i.e. $K \approx 2\lambda S$
+\\
+\newline Now, we again start with \\
+\begin{center}
+$F_{w*(s)}(S)-F_{w*(s')}(S')$\\ $= F_{w*(s)}(S)-F_{w*(s)}(S') + F_{w*(s)}(S')-F_{w*(s')}(S') $\\
+$\leq F_{w*(s')}(S)-F_{w*(s')}(S')$\\
+$=l(W{*}(S')^{T}x_{i},y_{i}) - l(W{*}(S)^{T}x'_{i},y'_{i})$\\
+$\leq L\|W{*}(S')-W{*}(S)\|$ \\
+\end{center}
+by applying the triangular inequality and using the Lipschitz condition
+\end{proof}
+
+\section{Group Details and Individual Contribution}
+\begin{itemize}
+\item200110055	Keshav Patel Keval: Definition 9.1 and Proposition 9.2
+\item 19D070017	Bhavishya: Proposition 9.3
+\item 200100127	Rahul: Part of the Proof for Proposition 9.3
+\item 19D070046	Phansalkar Ishan Shrirang: Completed Proof for Proposition 9.3
+
+\end{itemize}
+\end{document}
+
+
+
+
+
